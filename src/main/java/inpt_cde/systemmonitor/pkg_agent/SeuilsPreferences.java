@@ -13,7 +13,7 @@ public class SeuilsPreferences {
 
     // valeurs par défaut (fallback)
     private static final double DEFAULT_CPU = 20.0;
-    private static final double DEFAULT_RAM = 50.0;
+    private static final double DEFAULT_RAM = 60.0;
     private static final double DEFAULT_DISK = 50.0;
 
     public static void save(Seuils t) {
