@@ -31,8 +31,25 @@ public class SeuilsPreferences {
     	} else {
     		s = new Seuils(prefs.getDouble(CPU, DEFAULT_CPU),prefs.getDouble(RAM, DEFAULT_RAM),prefs.getDouble(DISK, DEFAULT_DISK));
     	}
-    	//System.out.println("Dans Seuils load et "+s);
         return s;
+    }
+    
+    public static boolean isSeuilsChanged(Seuils s) {
+    	boolean rep = false;
+		if (prefs.getDouble(CPU, 0)!=s.getCpu()) {
+			rep = true;
+		}
+		if (prefs.getDouble(RAM, 0)!=s.getRam()) {
+			rep = true;
+		}
+		if (prefs.getDouble(DISK, 0)!=s.getDisk()) {
+			rep = true;
+		}
+		// update if changed
+		if (rep) {
+			save(s);
+		}
+    	return rep;
     }
     
 }

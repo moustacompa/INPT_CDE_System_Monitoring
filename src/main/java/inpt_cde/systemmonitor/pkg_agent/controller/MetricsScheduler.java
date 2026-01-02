@@ -10,7 +10,10 @@ import inpt_cde.systemmonitor.model.Metric;
 
 public class MetricsScheduler {
 
-    private static final ScheduledExecutorService scheduler =
+    private static final ScheduledExecutorService metricsScheduler =
+            Executors.newSingleThreadScheduledExecutor();
+    
+    private static final ScheduledExecutorService seuilScheduler =
             Executors.newSingleThreadScheduledExecutor();
 
     public static void start() {
@@ -24,10 +27,17 @@ public class MetricsScheduler {
         };
 
         // Démarrage immédiat, puis toutes les 10 minutes
-        scheduler.scheduleAtFixedRate(
+        metricsScheduler.scheduleAtFixedRate(
                 task,
                 0,
                 1,
+                TimeUnit.MINUTES
+        );
+        //Vérification du changement de seuil chaque heure
+        seuilScheduler.scheduleAtFixedRate(
+                task,
+                0,
+                60,
                 TimeUnit.MINUTES
         );
     }
@@ -46,6 +56,7 @@ public class MetricsScheduler {
     }
 
     public static void stop() {
-        scheduler.shutdown();
+    	metricsScheduler.shutdown();
+    	seuilScheduler.shutdown();
     }
 }
