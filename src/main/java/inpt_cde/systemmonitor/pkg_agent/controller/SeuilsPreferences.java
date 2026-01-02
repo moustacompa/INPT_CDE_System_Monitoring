@@ -1,4 +1,4 @@
-package inpt_cde.systemmonitor.pkg_agent;
+package inpt_cde.systemmonitor.pkg_agent.controller;
 
 import java.util.prefs.Preferences;
 
@@ -12,9 +12,9 @@ public class SeuilsPreferences {
     private static final String DISK = "disk_threshold";
 
     // valeurs par défaut (fallback)
-    private static final double DEFAULT_CPU = 20.0;
-    private static final double DEFAULT_RAM = 60.0;
-    private static final double DEFAULT_DISK = 50.0;
+    private static final double DEFAULT_CPU = 80.0;
+    private static final double DEFAULT_RAM = 80.0;
+    private static final double DEFAULT_DISK = 80.0;
 
     public static void save(Seuils t) {
         prefs.putDouble(CPU, t.getCpu());
@@ -23,11 +23,16 @@ public class SeuilsPreferences {
     }
 
     public static Seuils load() {
-        return new Seuils(
-                prefs.getDouble(CPU, DEFAULT_CPU),
-                prefs.getDouble(RAM, DEFAULT_RAM),
-                prefs.getDouble(DISK, DEFAULT_DISK)
-        );
+    	Seuils s = null;
+    	String cpucheck = prefs.get(CPU, null);
+
+    	if (cpucheck == null) {
+    	    s = SeuilRecupService.fetchFromServer();
+    	} else {
+    		s = new Seuils(prefs.getDouble(CPU, DEFAULT_CPU),prefs.getDouble(RAM, DEFAULT_RAM),prefs.getDouble(DISK, DEFAULT_DISK));
+    	}
+    	//System.out.println("Dans Seuils load et "+s);
+        return s;
     }
     
 }

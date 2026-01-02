@@ -70,6 +70,7 @@ public class Metric {
 	   ZonedDateTime dateHeure = instant.atZone(ZoneId.of("Africa/Casablanca"));
 	   DateTimeFormatter formatter =
        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.FRANCE);
+	   s+="Metrics : \n";
 	   s+="Timestamp;" + dateHeure.format(formatter)+"\n";
 	   s+="CPU Usage: "+ df.format(getCpuUsage())+"%\n";
        s+="RAM Usage: "+ df.format(getMemoryUsageMB())+"%\n";

@@ -1,0 +1,31 @@
+janv. 02, 2026 8:54:32 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Metrics : 
+Timestamp;02/01/2026 08:54:32
+CPU Usage: 7,79%
+RAM Usage: 65,29%
+Disk Usage:76,62%
+
+janv. 02, 2026 8:54:32 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.29103170852466, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]
+janv. 02, 2026 8:54:33 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.29103170852466, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62043605178799, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]
+janv. 02, 2026 8:55:31 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Metrics : 
+Timestamp;02/01/2026 08:55:31
+CPU Usage: 5,54%
+RAM Usage: 65,54%
+Disk Usage:76,62%
+
+janv. 02, 2026 8:55:32 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.29103170852466, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62043605178799, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.54001776472643, timesptamp=Fri Jan 02 08:55:31 GMT+01:00 2026]
+janv. 02, 2026 8:55:32 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.29103170852466, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62043605178799, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.54001776472643, timesptamp=Fri Jan 02 08:55:31 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62065673226968, timesptamp=Fri Jan 02 08:55:32 GMT+01:00 2026]
+janv. 02, 2026 8:55:58 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Metrics : 
+Timestamp;02/01/2026 08:55:58
+CPU Usage: 7,91%
+RAM Usage: 65,52%
+Disk Usage:76,62%
+
+janv. 02, 2026 8:55:58 AM inpt_cde.systemmonitor.pkg_server.ServerLogger saveLogs
+INFO: Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.29103170852466, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62043605178799, timesptamp=Fri Jan 02 08:54:32 GMT+01:00 2026]Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.54001776472643, timesptamp=Fri Jan 02 08:55:31 GMT+01:00 2026]Alert [id=0, severity=1, message=Disk Usage too hight, threshold=3.0, value=76.62065673226968, timesptamp=Fri Jan 02 08:55:32 GMT+01:00 2026]Alert [id=0, severity=1, message=RAM Usage too hight, threshold=2.0, value=65.52472054013518, timesptamp=Fri Jan 02 08:55:58 GMT+01:00 2026]

@@ -1,4 +1,4 @@
-package inpt_cde.systemmonitor.pkg_agent;
+package inpt_cde.systemmonitor.pkg_agent.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

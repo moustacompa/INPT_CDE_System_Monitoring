@@ -1,4 +1,4 @@
-package inpt_cde.systemmonitor.pkg_agent;
+package inpt_cde.systemmonitor.pkg_agent.controller;
 
 import java.time.Instant;
 import java.util.Date;
@@ -49,7 +49,7 @@ public class AgentMonitor {
         System.out.println("Vérification et envoi des alertes");
         // vérification et envoi des alertes
         Seuils t = SeuilsPreferences.load();
-        System.out.println("Seuils = "+t);
+        //System.out.println("Seuils = "+t);
         if (cpuLoad > t.getCpu()) {
 		    Alert alert = new Alert();
 		    alert.setMessage("CPU Usage too hight");
