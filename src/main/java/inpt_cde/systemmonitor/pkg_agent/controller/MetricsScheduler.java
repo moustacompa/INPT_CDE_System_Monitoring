@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.prefs.Preferences;
 
 import inpt_cde.systemmonitor.model.Metric;
 
@@ -53,6 +54,12 @@ public class MetricsScheduler {
 		if (m!=null) {
 			System.out.println(m);
 		}
+    }
+    
+    private static void updateSeuils() {
+    	Seuils s = SeuilRecupService.fetchFromServer();
+    	Preferences prefs = Preferences.userNodeForPackage(SeuilsPreferences.class);
+    	
     }
 
     public static void stop() {
