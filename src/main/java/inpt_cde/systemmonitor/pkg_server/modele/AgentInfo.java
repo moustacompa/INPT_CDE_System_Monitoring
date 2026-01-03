@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Classe représentant les informations d'un agent de surveillance
- * Stocke l'historique des métriques et alertes pour chaque agent
- */
+
 public class AgentInfo {
     private String agentId;
     private String ipAddress;
