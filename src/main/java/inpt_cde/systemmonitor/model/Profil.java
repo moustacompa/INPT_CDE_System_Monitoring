@@ -12,7 +12,9 @@ public class Profil {
    /** @pdRoleInfo migr=no name=Utilisateur assc=association3 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<Utilisateur> utilisateur;
    
-   
+   public Profil() {
+	   
+   }
    public Profil(int id, String label, Collection<Utilisateur> utilisateur) {
 		super();
 		this.id = id;

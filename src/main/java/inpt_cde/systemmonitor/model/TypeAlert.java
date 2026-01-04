@@ -1,7 +1,5 @@
 package inpt_cde.systemmonitor.model;
 
-import java.util.*;
-
 /** @pdOid c227250c-f1cd-499b-b60c-98dec0934d0f */
 public class TypeAlert {
    /** @pdOid 1c9ea92b-18a5-4e3a-b419-4a6b4520a866 */
@@ -21,7 +19,7 @@ public class TypeAlert {
    }
    
    /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorAlert() {
+   public java.util.Iterator<Alert> getIteratorAlert() {
       if (alert == null)
          alert = new java.util.HashSet<Alert>();
       return alert.iterator();
@@ -31,9 +29,15 @@ public class TypeAlert {
      * @param newAlert */
    public void setAlert(java.util.Collection<Alert> newAlert) {
       removeAllAlert();
-      for (java.util.Iterator iter = newAlert.iterator(); iter.hasNext();)
-         addAlert((Alert)iter.next());
+      for (java.util.Iterator<Alert> iter = newAlert.iterator(); iter.hasNext();)
+         addAlert(iter.next());    
    }
+   public void setId(int id) {
+	   this.id = id;
+   };
+   public void setLabel(String label) {
+	   this.label = label;
+   };
    
    /** @pdGenerated default add
      * @param newAlert */

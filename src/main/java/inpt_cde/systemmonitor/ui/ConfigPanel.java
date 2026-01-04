@@ -1,46 +1,21 @@
 package inpt_cde.systemmonitor.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Window;
+import inpt_cde.systemmonitor.pkg_server.*;
+import inpt_cde.systemmonitor.model.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Panneau de configuration des seuils d'alerte
  */
 class ConfigPanel extends JPanel {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JSpinner cpuCriticalSpinner;
+    private JSpinner cpuCriticalSpinner;
     private JSpinner cpuWarningSpinner;
     private JSpinner memoryCriticalSpinner;
     private JSpinner memoryWarningSpinner;
@@ -196,11 +171,7 @@ class ConfigPanel extends JPanel {
  */
 class HistoryPanel extends JPanel {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTable historyTable;
+    private JTable historyTable;
     private DefaultTableModel tableModel;
     private JComboBox<String> agentSelector;
     private JComboBox<String> metricSelector;
@@ -258,7 +229,7 @@ class HistoryPanel extends JPanel {
 class MonitoringController {
     
     private Registry registry;
-    private Object monitoringService; // Interface RMI à définir
+    private MonitoringServiceInterface monitoringService;
     private final String host;
     private final int port;
     
@@ -275,90 +246,96 @@ class MonitoringController {
     private void connect() throws Exception {
         try {
             registry = LocateRegistry.getRegistry(host, port);
+            monitoringService = (MonitoringServiceInterface) 
+                               registry.lookup("MonitoringService");
             
-            // TODO: Récupérer l'interface RMI du serveur
-            // Exemple: monitoringService = registry.lookup("MonitoringService");
-            
-            System.out.println("Connecté au serveur RMI: " + host + ":" + port);
+            System.out.println("✓ Connecté au serveur RMI: " + host + ":" + port);
             
         } catch (Exception e) {
             throw new Exception("Impossible de se connecter au serveur RMI: " + e.getMessage(), e);
         }
     }
     
-    /**
-     * Récupère la liste de tous les agents
-     */
-    public java.util.List<?> getAllAgents() throws Exception {
-        // TODO: Appel RMI
-        // return monitoringService.getAllAgents();
-        return new java.util.ArrayList<>();
+    // ===== AGENTS =====
+    
+    public java.util.List<inpt_cde.systemmonitor.model.Agent> getAllAgents() throws Exception {
+        return monitoringService.getAllAgents();
     }
     
-    /**
-     * Récupère les métriques d'un agent
-     */
-    public java.util.List<?> getAgentMetrics(String agentId, long startTime, long endTime) throws Exception {
-        // TODO: Appel RMI
-        return new java.util.ArrayList<>();
+    public inpt_cde.systemmonitor.model.Agent getAgent(int agentId) throws Exception {
+        return monitoringService.getAgent(agentId);
     }
     
-    /**
-     * Récupère les alertes actives
-     */
-    public java.util.List<?> getActiveAlerts() throws Exception {
-        // TODO: Appel RMI
-        return new java.util.ArrayList<>();
+    // ===== MÉTRIQUES =====
+    
+    public Metric getLatestMetrics(int agentId) throws Exception {
+        return monitoringService.getLatestMetric(agentId);
     }
     
-    /**
-     * Récupère les alertes récentes
-     */
-    public java.util.List<?> getRecentAlerts() throws Exception {
-        // TODO: Appel RMI
-        return new java.util.ArrayList<>();
+    public java.util.List<Metric> getMetricsHistory(
+            int agentId, int limit) throws Exception {
+        return monitoringService.getMetricsHistory(agentId, limit);
     }
     
-    /**
-     * Met à jour le statut d'une alerte
-     */
-    public void updateAlertStatus(String alertId, String status) throws Exception {
-        // TODO: Appel RMI
+    public java.util.Map<Integer, Metric> getAllLatestMetrics() 
+            throws Exception {
+        return monitoringService.getAllLatestMetrics();
     }
     
-    /**
-     * Récupère la configuration des seuils
-     */
-    public Object getThresholdConfiguration() throws Exception {
-        // TODO: Appel RMI
-        return null;
+    // ===== ALERTES =====
+    
+    public java.util.List<Alert> getAllAlerts() throws Exception {
+        return monitoringService.getAllAlerts();
     }
     
-    /**
-     * Met à jour la configuration des seuils
-     */
-    public void updateThresholdConfiguration(Object config) throws Exception {
-        // TODO: Appel RMI
+    public java.util.List<Alert> getRecentAlerts(int limit) throws Exception {
+        return monitoringService.getRecentAlerts(limit);
     }
     
-    /**
-     * Récupère l'historique des métriques
-     */
-    public java.util.List<?> getMetricsHistory(String agentId, String metricType, 
-                                                long startTime, long endTime) throws Exception {
-        // TODO: Appel RMI
-        return new java.util.ArrayList<>();
+    public java.util.List<Alert> getAlertsBySeverity(
+            int severity) throws Exception {
+        return monitoringService.getAlertsBySeverity(severity);
     }
     
-    /**
-     * Exporte les données
-     */
-    public void exportData(String format, String filePath) throws Exception {
-        // TODO: Appel RMI ou traitement local
+    // ===== TYPES D'ALERTES (CONFIGURATION) =====
+    
+    public java.util.List<TypeAlert> getAllAlertTypes() throws Exception {
+        return monitoringService.getAllAlertTypes();
+    }
+    
+    public void updateAlertThreshold(int typeAlertId, double newThreshold) throws Exception {
+        monitoringService.updateAlertThreshold(typeAlertId, newThreshold);
+    }
+    
+    // ===== STATISTIQUES =====
+    
+    public SystemStatistics getSystemStatistics() throws Exception {
+        return monitoringService.getSystemStatistics();
+    }
+    
+    // ===== UTILISATEURS =====
+    
+    public Utilisateur authenticate(String login, String password) 
+            throws Exception {
+        return monitoringService.authenticate(login, password);
+    }
+    
+    public java.util.List<Utilisateur> getAllUsers() throws Exception {
+        return monitoringService.getAllUsers();
+    }
+    
+    // ===== TRACES =====
+    
+    public void addTrace(String label) throws Exception {
+        monitoringService.addTrace(label);
+    }
+    
+    public java.util.List<Trace> getRecentTraces(int limit) 
+            throws Exception {
+        return monitoringService.getRecentTraces(limit);
     }
     
     public void disconnect() {
-        // Nettoyage si nécessaire
         System.out.println("Déconnecté du serveur RMI");
     }
 }

@@ -2,6 +2,9 @@ package inpt_cde.systemmonitor.ui;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
+import inpt_cde.systemmonitor.model.*;
+
 import java.awt.*;
 
 /**
@@ -150,7 +153,7 @@ public class DashboardPanel extends JPanel {
         return sidePanel;
     }
     
-    private JPanel createAgentCard(String agentId, double cpu, double memory, double disk, String status) {
+    private JPanel createAgentCard(int agentId, double cpu, double memory, double disk, String status) {
         JPanel card = new JPanel(new BorderLayout(5, 5));
         card.setBorder(BorderFactory.createCompoundBorder(
             new LineBorder(getStatusColor(status), 2, true),
@@ -160,7 +163,7 @@ public class DashboardPanel extends JPanel {
         
         // En-tête avec ID et statut
         JPanel header = new JPanel(new BorderLayout());
-        JLabel idLabel = new JLabel(agentId);
+        JLabel idLabel = new JLabel("Agent " + agentId);
         idLabel.setFont(new Font("Arial", Font.BOLD, 14));
         
         JLabel statusLabel = new JLabel(status);
@@ -274,17 +277,13 @@ public class DashboardPanel extends JPanel {
     }
     
     private void updateGlobalStats(MonitoringController controller) throws Exception {
-        // TODO: Récupérer les statistiques via RMI
-        // Exemple:
-        // List<Agent> agents = controller.getAllAgents();
-        // totalAgentsLabel.setText(String.valueOf(agents.size()));
+        SystemStatistics stats = controller.getSystemStatistics();
         
-        // Pour le moment, valeurs de test
-        totalAgentsLabel.setText("5");
-        activeAgentsLabel.setText("4");
-        criticalAlertsLabel.setText("2");
-        avgCpuLabel.setText("45.2%");
-        avgMemoryLabel.setText("62.8%");
+        totalAgentsLabel.setText(String.valueOf(stats.getTotalAgents()));
+        activeAgentsLabel.setText(String.valueOf(stats.getActiveAgents()));
+        criticalAlertsLabel.setText(String.valueOf(stats.getCriticalAlerts()));
+        avgCpuLabel.setText(String.format("%.1f%%", stats.getAverageCpu()));
+        avgMemoryLabel.setText(String.format("%.1f%%", stats.getAverageMemory()));
     }
     
     private void updateAgentCards(MonitoringController controller) throws Exception {
@@ -292,23 +291,13 @@ public class DashboardPanel extends JPanel {
         
         // TODO: Récupérer les agents via RMI
         // List<Agent> agents = controller.getAllAgents();
-        /*for (Agent agent : agents) {
-            Metric metric = controller.getLatestMetric(agent.getId());
-            agentCardsPanel.add(createAgentCard(
-                agent.getId(),
-                metric.getCpu(),
-                metric.getMemory(),
-                metric.getDisk(),
-                agent.getStatus()
-            ));
-        }*/
         
         // Exemple de données de test
-        agentCardsPanel.add(createAgentCard("Agent-001", 45.5, 62.3, 78.1, "ACTIF"));
-        agentCardsPanel.add(createAgentCard("Agent-002", 88.2, 91.5, 45.2, "CRITIQUE"));
-        agentCardsPanel.add(createAgentCard("Agent-003", 32.1, 48.7, 55.9, "ACTIF"));
-        agentCardsPanel.add(createAgentCard("Agent-004", 65.4, 72.8, 82.3, "ALERTE"));
-        agentCardsPanel.add(createAgentCard("Agent-005", 25.8, 35.2, 41.5, "ACTIF"));
+        agentCardsPanel.add(createAgentCard(1, 45.5, 62.3, 78.1, "ACTIF"));
+        agentCardsPanel.add(createAgentCard(2, 88.2, 91.5, 45.2, "CRITIQUE"));
+        agentCardsPanel.add(createAgentCard(3, 32.1, 48.7, 55.9, "ACTIF"));
+        agentCardsPanel.add(createAgentCard(4, 65.4, 72.8, 82.3, "ALERTE"));
+        agentCardsPanel.add(createAgentCard(5, 25.8, 35.2, 41.5, "ACTIF"));
         
         agentCardsPanel.revalidate();
         agentCardsPanel.repaint();
@@ -317,13 +306,13 @@ public class DashboardPanel extends JPanel {
     private void updateAlerts(MonitoringController controller) throws Exception {
         alertsPanel.removeAll();
         
-        // TODO: Récupérer les alertes via RMI
-        // List<Alert> alerts = controller.getRecentAlerts();
+        java.util.List<Alert> alerts = controller.getRecentAlerts(5);
         
-        // Exemple de données de test
-        alertsPanel.add(createAlertItem("Agent-002", "CPU critique: 88%", "CRITICAL"));
-        alertsPanel.add(createAlertItem("Agent-002", "Mémoire élevée: 91%", "WARNING"));
-        alertsPanel.add(createAlertItem("Agent-004", "Disque saturé: 82%", "WARNING"));
+        for (Alert alert : alerts) {
+            String severityStr = alert.getSeverity() == 3 ? "CRITICAL" :
+                               alert.getSeverity() == 2 ? "WARNING" : "INFO";
+            alertsPanel.add(createAlertItem("Agent", alert.getMessage(), severityStr));
+        }
         
         alertsPanel.revalidate();
         alertsPanel.repaint();

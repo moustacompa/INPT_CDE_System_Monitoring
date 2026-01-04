@@ -128,4 +128,144 @@ public class Agent {
          metric.clear();
    }
 
+/**
+ * @return the hostname
+ */
+public String getHostname() {
+	return hostname;
+}
+
+/**
+ * @param hostname the hostname to set
+ */
+public void setHostname(String hostname) {
+	this.hostname = hostname;
+}
+
+/**
+ * @return the id
+ */
+public int getId() {
+	return id;
+}
+
+/**
+ * @param id the id to set
+ */
+public void setId(int id) {
+	this.id = id;
+}
+
+/**
+ * @return the ipAddress
+ */
+public String getIpAddress() {
+	return ipAddress;
+}
+
+/**
+ * @param ipAddress the ipAddress to set
+ */
+public void setIpAddress(String ipAddress) {
+	this.ipAddress = ipAddress;
+}
+
+/**
+ * @return the typeOS
+ */
+public String getTypeOS() {
+	return typeOS;
+}
+
+/**
+ * @param typeOS the typeOS to set
+ */
+public void setTypeOS(String typeOS) {
+	this.typeOS = typeOS;
+}
+
+/**
+ * @return the dateInstallation
+ */
+public Date getDateInstallation() {
+	return dateInstallation;
+}
+
+/**
+ * @param dateInstallation the dateInstallation to set
+ */
+public void setDateInstallation(Date dateInstallation) {
+	this.dateInstallation = dateInstallation;
+}
+
+/**
+ * @return the lastAlertTime
+ */
+public Date getLastAlertTime() {
+	return lastAlertTime;
+}
+
+/**
+ * @param lastAlertTime the lastAlertTime to set
+ */
+public void setLastAlertTime(Date lastAlertTime) {
+	this.lastAlertTime = lastAlertTime;
+}
+
+/**
+ * @return the lastMetricsTime
+ */
+public Date getLastMetricsTime() {
+	return lastMetricsTime;
+}
+
+/**
+ * @param lastMetricsTime the lastMetricsTime to set
+ */
+public void setLastMetricsTime(Date lastMetricsTime) {
+	this.lastMetricsTime = lastMetricsTime;
+}
+
+/**
+ * @return the tags
+ */
+public String getTags() {
+	return tags;
+}
+
+/**
+ * @param tags the tags to set
+ */
+public void setTags(String tags) {
+	this.tags = tags;
+}
+
+/**
+ * @return the macAddress
+ */
+public String getMacAddress() {
+	return macAddress;
+}
+
+/**
+ * @param macAddress the macAddress to set
+ */
+public void setMacAddress(String macAddress) {
+	this.macAddress = macAddress;
+}
+
+/**
+ * @return the isOnline
+ */
+public boolean isOnline() {
+	return isOnline;
+}
+
+/**
+ * @param isOnline the isOnline to set
+ */
+public void setOnline(boolean isOnline) {
+	this.isOnline = isOnline;
+}
+
 }

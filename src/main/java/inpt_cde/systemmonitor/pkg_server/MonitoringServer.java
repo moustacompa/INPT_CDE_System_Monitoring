@@ -9,7 +9,8 @@ import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import inpt_cde.systemmonitor.pkg_agent.controller.Seuils;
 
 public class MonitoringServer {
@@ -18,6 +19,7 @@ public class MonitoringServer {
 	public static int TCP_ALERTS_SRV_PORT = 8405;
 	public static int UDP_SRV_PORT = 9999;
 	public static String SRV_ADR = "localhost";
+	private static MonitoringServiceImpl rmiService;
 	
 	private static void TCPRecption() {
 		String ret = "";
@@ -94,6 +96,12 @@ public class MonitoringServer {
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("====================================");
+        System.out.println("  SERVEUR DE SURVEILLANCE - INPT");
+        System.out.println("====================================\n");
+        
+        startRMIService();
+        
 		new Thread(() -> {
 			seuilService();
 		}).start();
@@ -103,8 +111,31 @@ public class MonitoringServer {
 		new Thread(() -> {
 			UDPReception();
 		}).start();
+		
+		System.out.println("\n✓ Tous les services sont opérationnels !\n");
 	}
 
-	
+	private static void startRMIService() {
+		try {
+			System.out.println("Démarrage du service RMI");
+			
+			rmiService = new MonitoringServiceImpl();
+			
+			Registry registry;
+			try {
+				registry = LocateRegistry.createRegistry(1099);
+				System.out.println(" - Registre RMI crée sur le port 1099.");
+			} catch (Exception e) {
+				registry = LocateRegistry.getRegistry(1099);
+				System.out.println(" - Registre RMI existant utilisé.");
+			}
+			
+			registry.rebind("MonitoringService", rmiService);
+			System.out.println(" Service RMI 'MonitoringService' enregistré.\n");
+		} catch (Exception e) {
+			System.err.println(" Erreur de démarrage RMI: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 }

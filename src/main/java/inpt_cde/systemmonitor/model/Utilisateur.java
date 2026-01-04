@@ -20,6 +20,9 @@ public class Utilisateur {
    /** @pdRoleInfo migr=no name=Trace assc=association5 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<Trace> trace;
    
+   public Utilisateur() {
+	   
+   }
    public Utilisateur(int id, String login, String pwd, Date lastLogin, boolean active, Collection<Droit> droit,
 		Collection<Trace> trace) {
 	super();
