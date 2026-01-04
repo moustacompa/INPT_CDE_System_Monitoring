@@ -11,12 +11,13 @@ public class MainWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	// Composants principaux
-    private JPanel mainPanel;
+    private JPanel mainPanel = new JPanel();
     private JMenuBar menuBar;
     private JToolBar toolBar;
     private JLabel statusLabel;
     
     // Panneaux de contenu
+    private JPanel contentPanel;
     private DashboardPanel dashboardPanel;
     private AgentTablePanel agentTablePanel;
     private MetricsChartPanel metricsChartPanel;
