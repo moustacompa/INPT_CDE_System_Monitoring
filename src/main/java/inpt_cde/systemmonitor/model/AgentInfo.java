@@ -1,7 +1,5 @@
-package inpt_cde.systemmonitor.pkg_server.modele;
+package inpt_cde.systemmonitor.model;
 
-import inpt_cde.systemmonitor.model.Alert;
-import inpt_cde.systemmonitor.model.Metric;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
