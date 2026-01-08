@@ -1,36 +1,15 @@
 package inpt_cde.systemmonitor.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.*;
+
+import inpt_cde.systemmonitor.model.Agent;
+
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableRowSorter;
 
 /**
  * Panneau affichant la liste détaillée de tous les agents
@@ -84,7 +63,7 @@ public class AgentTablePanel extends JPanel {
         // Filtre par statut
         JLabel filterLabel = new JLabel("Statut:");
         filterComboBox = new JComboBox<>(new String[]{
-            "Tous", "Actif", "Inactif", "Alerte", "Critique"
+            "Tous", "En ligne", "Hors ligne"
         });
         filterComboBox.addActionListener(e -> filterTable());
         
@@ -178,16 +157,16 @@ public class AgentTablePanel extends JPanel {
         viewDetailsItem.addActionListener(e -> viewAgentDetails());
         contextMenu.add(viewDetailsItem);
         
+        /*
         JMenuItem viewMetricsItem = new JMenuItem("Voir les graphiques");
         viewMetricsItem.addActionListener(e -> viewAgentMetrics());
         contextMenu.add(viewMetricsItem);
         
         contextMenu.addSeparator();
-        
         JMenuItem exportItem = new JMenuItem("Exporter l'agent");
         exportItem.addActionListener(e -> exportAgent());
         contextMenu.add(exportItem);
-        
+        */
         JMenuItem deleteItem = new JMenuItem("Supprimer");
         deleteItem.addActionListener(e -> deleteAgent());
         contextMenu.add(deleteItem);
@@ -204,13 +183,13 @@ public class AgentTablePanel extends JPanel {
         
         JButton metricsBtn = new JButton("Graphiques");
         metricsBtn.addActionListener(e -> viewAgentMetrics());
-        
+        /*
         JButton exportBtn = new JButton("Exporter tout");
         exportBtn.addActionListener(e -> exportAllAgents());
-        
+        */
         panel.add(detailsBtn);
         panel.add(metricsBtn);
-        panel.add(exportBtn);
+        //panel.add(exportBtn);
         
         return panel;
     }
@@ -253,19 +232,10 @@ public class AgentTablePanel extends JPanel {
     
     public void refresh(MonitoringController controller) {
         try {
-            // TODO: Récupérer les agents via RMI
-            // List<Agent> agents = controller.getAllAgents();
-            // tableModel.setAgents(agents);
+            // Récupérer les agents via RMI
+            List<Agent> agents = controller.getAllAgents();
+            tableModel.setData(agents);
             
-            // Données de test
-            List<AgentData> testData = new ArrayList<>();
-            testData.add(new AgentData("AG-001", "Agent-Production-01", "192.168.1.10", "Actif", 45.5, 62.3, 78.1, "12:45:32"));
-            testData.add(new AgentData("AG-002", "Agent-Production-02", "192.168.1.11", "Critique", 88.2, 91.5, 45.2, "12:46:15"));
-            testData.add(new AgentData("AG-003", "Agent-Dev-01", "192.168.1.20", "Actif", 32.1, 48.7, 55.9, "12:47:03"));
-            testData.add(new AgentData("AG-004", "Agent-Test-01", "192.168.1.30", "Alerte", 65.4, 72.8, 82.3, "12:48:21"));
-            testData.add(new AgentData("AG-005", "Agent-Backup-01", "192.168.1.40", "Actif", 25.8, 35.2, 41.5, "12:49:45"));
-            
-            tableModel.setData(testData);
             updateCount();
             
         } catch (Exception e) {
@@ -288,7 +258,7 @@ public class AgentTablePanel extends JPanel {
         }
         
         int modelRow = agentTable.convertRowIndexToModel(selectedRow);
-        AgentData agent = tableModel.getAgentAt(modelRow);
+        Agent agent = tableModel.getAgentAt(modelRow);
         
         AgentDetailsDialog dialog = new AgentDetailsDialog(
             SwingUtilities.getWindowAncestor(this),
@@ -313,25 +283,23 @@ public class AgentTablePanel extends JPanel {
             "Information",
             JOptionPane.INFORMATION_MESSAGE);
     }
-    
+    /*
     private void exportAgent() {
         int selectedRow = agentTable.getSelectedRow();
         if (selectedRow == -1) return;
         
-        // TODO: Implémenter l'export
         JOptionPane.showMessageDialog(this,
             "Export de l'agent en cours...",
             "Information",
             JOptionPane.INFORMATION_MESSAGE);
     }
-    
     private void exportAllAgents() {
-        // TODO: Implémenter l'export de tous les agents
         JOptionPane.showMessageDialog(this,
             "Export de tous les agents en cours...",
             "Information",
             JOptionPane.INFORMATION_MESSAGE);
     }
+     */
     
     private void deleteAgent() {
         int selectedRow = agentTable.getSelectedRow();
@@ -343,7 +311,6 @@ public class AgentTablePanel extends JPanel {
             JOptionPane.YES_NO_OPTION);
         
         if (confirm == JOptionPane.YES_OPTION) {
-            // TODO: Supprimer l'agent via RMI
             tableModel.removeRow(agentTable.convertRowIndexToModel(selectedRow));
             updateCount();
         }
@@ -361,22 +328,23 @@ class AgentTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 
 	private final String[] columnNames = {
-        "ID", "Nom", "Adresse IP", "Statut", "CPU", "Mémoire", "Disque", "Dernière MAJ"
+        "ID", "Nom", "Adresse IP", "Adresse MAC", "Statut", "Type OS", 
+        "Date d'installation", "Dernière Alert", "Dernière Métrique", "Tags"
     };
     
-    private List<AgentData> agents = new ArrayList<>();
+    private List<Agent> agents = new ArrayList<>();
     
-    public void setData(List<AgentData> data) {
+    public void setData(List<Agent> data) {
         this.agents = data;
         fireTableDataChanged();
     }
-    
-    public void removeRow(int row) {
+
+	public void removeRow(int row) {
         agents.remove(row);
         fireTableRowsDeleted(row, row);
     }
     
-    public AgentData getAgentAt(int row) {
+    public Agent getAgentAt(int row) {
         return agents.get(row);
     }
     
@@ -397,16 +365,18 @@ class AgentTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int col) {
-        AgentData agent = agents.get(row);
+        Agent agent = agents.get(row);
         switch (col) {
-            case 0: return agent.id;
-            case 1: return agent.name;
-            case 2: return agent.ipAddress;
-            case 3: return agent.status;
-            case 4: return agent.cpu;
-            case 5: return agent.memory;
-            case 6: return agent.disk;
-            case 7: return agent.lastUpdate;
+            case 0: return agent.getId();
+            case 1: return agent.getHostname();
+            case 2: return agent.getIpAddress();
+            case 3: return agent.getMacAddress();
+            case 4: return agent.status();
+            case 5: return agent.getTypeOS();
+            case 6: return agent.getDateInstallation();
+            case 7: return agent.getLastAlertTime();
+            case 8: return agent.getLastMetricsTime();
+            case 9: return agent.getTags();
             default: return null;
         }
     }
@@ -415,32 +385,6 @@ class AgentTableModel extends AbstractTableModel {
     public Class<?> getColumnClass(int col) {
         if (col >= 4 && col <= 6) return Double.class;
         return String.class;
-    }
-}
-
-/**
- * Classe de données pour un agent
- */
-class AgentData {
-    String id;
-    String name;
-    String ipAddress;
-    String status;
-    double cpu;
-    double memory;
-    double disk;
-    String lastUpdate;
-    
-    public AgentData(String id, String name, String ipAddress, String status,
-                     double cpu, double memory, double disk, String lastUpdate) {
-        this.id = id;
-        this.name = name;
-        this.ipAddress = ipAddress;
-        this.status = status;
-        this.cpu = cpu;
-        this.memory = memory;
-        this.disk = disk;
-        this.lastUpdate = lastUpdate;
     }
 }
 

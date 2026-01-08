@@ -268,4 +268,9 @@ public void setOnline(boolean isOnline) {
 	this.isOnline = isOnline;
 }
 
+public String status() {
+	if (this.isOnline) return "En ligne";
+	return "Hors ligne";
+}
+
 }

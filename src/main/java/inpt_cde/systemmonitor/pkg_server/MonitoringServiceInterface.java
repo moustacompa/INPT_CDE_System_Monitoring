@@ -129,13 +129,7 @@ public interface MonitoringServiceInterface extends Remote {
     /**
      * Récupère tous les types d'alertes configurés
      */
-    List<TypeAlert> getAllAlertTypes() throws RemoteException;
-    
-    /**
-     * Met à jour le seuil d'un type d'alerte
-     */
-    void updateAlertThreshold(int typeAlertId, double newThreshold) throws RemoteException;
-    
+    List<TypeAlert> getAllAlertTypes() throws RemoteException;    
     
     // ===== STATISTIQUES =====
     

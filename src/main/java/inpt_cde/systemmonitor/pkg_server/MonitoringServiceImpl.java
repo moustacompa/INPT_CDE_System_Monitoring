@@ -7,10 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
-/**
- * Implémentation RMI adaptée aux VRAIES classes du projet
- * Gère les incohérences (timesptamp au lieu de timestamp, etc.)
- */
+
 public class MonitoringServiceImpl extends UnicastRemoteObject 
                                    implements MonitoringServiceInterface {
     
@@ -37,7 +34,7 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
     }
     
     private void initializeDefaultData() {
-        // Types d'alertes (seuils de votre camarade: CPU=30, RAM=45, Disque=90)
+        // Types d'alertes 
         TypeAlert cpuAlert = new TypeAlert();
         cpuAlert.setId(1);
         cpuAlert.setLabel("CPU");
@@ -95,7 +92,7 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
     @Override
     public List<Agent> getActiveAgents() throws RemoteException {
         return agents.values().stream()
-                .filter(Agent::isOnline)  // Utilise getIsOnline() du code réel
+                .filter(Agent::isOnline)
                 .collect(Collectors.toList());
     }
     
@@ -259,13 +256,6 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
             return new ArrayList<>(alertTypes);
         }
     }
-    
-    @Override
-    public void updateAlertThreshold(int typeAlertId, double newThreshold) throws RemoteException {
-        // TypeAlert n'a pas de setters fonctionnels, on log juste
-        System.out.println("✓ Mise à jour seuil demandée: " + typeAlertId + " = " + newThreshold);
-    }
-    
     // ===== STATISTIQUES =====
     
     @Override
@@ -340,7 +330,6 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
     }
     
     /**
-     * Calcul de sévérité selon votre camarade
      */
     private int calculateSeverity(double performance, double seuil) {
         double delta = performance - seuil;
@@ -361,7 +350,6 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
     }
     
     private void checkThresholdsAndCreateAlerts(int agentId, Metric metric) {
-        // Seuils selon le code de votre camarade: CPU=30, RAM=45, Disque=90
         double CPU_SEUIL = 30.0;
         double RAM_SEUIL = 45.0;
         double DISK_SEUIL = 90.0;
@@ -375,7 +363,7 @@ public class MonitoringServiceImpl extends UnicastRemoteObject
             alert.setMessage("CPU: " + String.format("%.1f%%", metric.getCpuUsage()));
             alert.setThreshold(CPU_SEUIL);
             alert.setValue(metric.getCpuUsage());
-            alert.setTimesptamp(metric.getTimestamp());  // timesptamp avec faute de frappe
+            alert.setTimesptamp(metric.getTimestamp());
             addAlert(alert);
         }
         

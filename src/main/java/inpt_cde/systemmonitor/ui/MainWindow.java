@@ -166,36 +166,36 @@ public class MainWindow extends JFrame {
         toolBar.setFloatable(false);
         
         // Bouton Dashboard
-        JButton dashboardBtn = createToolBarButton("Dashboard", "/icons/dashboard.png");
+        JButton dashboardBtn = createToolBarButton("Dashboard", "/ressources/icons/dashboard.png");
         dashboardBtn.addActionListener(e -> showPanel("dashboard"));
         toolBar.add(dashboardBtn);
         
         // Bouton Agents
-        JButton agentsBtn = createToolBarButton("Agents", "/icons/agents.png");
+        JButton agentsBtn = createToolBarButton("Agents", "/ressources/icons/agents.png");
         agentsBtn.addActionListener(e -> showPanel("agents"));
         toolBar.add(agentsBtn);
         
         // Bouton Graphiques
-        JButton metricsBtn = createToolBarButton("Graphiques", "/icons/chart.png");
+        JButton metricsBtn = createToolBarButton("Graphiques", "/ressources/icons/chart.png");
         metricsBtn.addActionListener(e -> showPanel("metrics"));
         toolBar.add(metricsBtn);
         
         toolBar.addSeparator();
         
         // Bouton Alertes
-        JButton alertsBtn = createToolBarButton("Alertes", "/icons/alert.png");
+        JButton alertsBtn = createToolBarButton("Alertes", "/ressources/icons/alert.png");
         alertsBtn.addActionListener(e -> showPanel("alerts"));
         toolBar.add(alertsBtn);
         
         toolBar.addSeparator();
         
         // Bouton Rafraîchir
-        JButton refreshBtn = createToolBarButton("Rafraîchir", "/icons/refresh.png");
+        JButton refreshBtn = createToolBarButton("Rafraîchir", "/ressources/icons/refresh.png");
         refreshBtn.addActionListener(e -> refreshData());
         toolBar.add(refreshBtn);
         
         // Bouton Exporter
-        JButton exportBtn = createToolBarButton("Exporter", "/icons/export.png");
+        JButton exportBtn = createToolBarButton("Exporter", "/ressources/icons/export.png");
         exportBtn.addActionListener(e -> exportData());
         toolBar.add(exportBtn);
         
@@ -207,10 +207,6 @@ public class MainWindow extends JFrame {
         button.setFocusable(false);
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
-        
-        // Les icônes sont optionnelles - on utilise juste le texte
-        // Si vous voulez ajouter des icônes plus tard, placez-les dans src/resources/icons/
-        
         return button;
     }
     
@@ -296,7 +292,6 @@ public class MainWindow extends JFrame {
         fileChooser.setDialogTitle("Exporter les données");
         
         if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-            // Implémenter l'export
             updateStatus("Export des données en cours...");
             // TODO: Implémenter la logique d'export
         }

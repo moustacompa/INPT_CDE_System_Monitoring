@@ -15,7 +15,11 @@ import java.rmi.registry.Registry;
  */
 class ConfigPanel extends JPanel {
     
-    private JSpinner cpuCriticalSpinner;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JSpinner cpuCriticalSpinner;
     private JSpinner cpuWarningSpinner;
     private JSpinner memoryCriticalSpinner;
     private JSpinner memoryWarningSpinner;
@@ -171,7 +175,11 @@ class ConfigPanel extends JPanel {
  */
 class HistoryPanel extends JPanel {
     
-    private JTable historyTable;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTable historyTable;
     private DefaultTableModel tableModel;
     private JComboBox<String> agentSelector;
     private JComboBox<String> metricSelector;
@@ -258,11 +266,11 @@ class MonitoringController {
     
     // ===== AGENTS =====
     
-    public java.util.List<inpt_cde.systemmonitor.model.Agent> getAllAgents() throws Exception {
+    public java.util.List<Agent> getAllAgents() throws Exception {
         return monitoringService.getAllAgents();
     }
     
-    public inpt_cde.systemmonitor.model.Agent getAgent(int agentId) throws Exception {
+    public Agent getAgent(int agentId) throws Exception {
         return monitoringService.getAgent(agentId);
     }
     
@@ -303,9 +311,9 @@ class MonitoringController {
         return monitoringService.getAllAlertTypes();
     }
     
-    public void updateAlertThreshold(int typeAlertId, double newThreshold) throws Exception {
-        monitoringService.updateAlertThreshold(typeAlertId, newThreshold);
-    }
+    //public void updateAlertThreshold(int typeAlertId, double newThreshold) throws Exception {
+      //  monitoringService.updateAlertThreshold(typeAlertId, newThreshold);
+    //}
     
     // ===== STATISTIQUES =====
     
@@ -350,8 +358,8 @@ class AgentDetailsDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AgentDetailsDialog(Window owner, AgentData agent) {
-        super(owner, "Détails de l'agent: " + agent.id, ModalityType.APPLICATION_MODAL);
+	public AgentDetailsDialog(Window owner, Agent agent) {
+        super(owner, "Détails de l'agent: " + agent.getId(), ModalityType.APPLICATION_MODAL);
         setSize(500, 400);
         setLocationRelativeTo(owner);
         
@@ -363,36 +371,37 @@ class AgentDetailsDialog extends JDialog {
         infoPanel.setBorder(BorderFactory.createTitledBorder("Informations"));
         
         infoPanel.add(new JLabel("ID:"));
-        infoPanel.add(new JLabel(agent.id));
+        infoPanel.add(new JLabel("" + agent.getId()));
         
         infoPanel.add(new JLabel("Nom:"));
-        infoPanel.add(new JLabel(agent.name));
+        infoPanel.add(new JLabel(agent.getHostname()));
         
         infoPanel.add(new JLabel("Adresse IP:"));
-        infoPanel.add(new JLabel(agent.ipAddress));
+        infoPanel.add(new JLabel(agent.getIpAddress()));
+        
+        infoPanel.add(new JLabel("Adresse MAC:"));
+        infoPanel.add(new JLabel(agent.getIpAddress()));
         
         infoPanel.add(new JLabel("Statut:"));
-        infoPanel.add(new JLabel(agent.status));
+        infoPanel.add(new JLabel(agent.status()));
         
-        infoPanel.add(new JLabel("Dernière MAJ:"));
-        infoPanel.add(new JLabel(agent.lastUpdate));
+        infoPanel.add(new JLabel("Type OS:"));
+        infoPanel.add(new JLabel(agent.getTypeOS()));
         
-        // Métriques actuelles
-        JPanel metricsPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-        metricsPanel.setBorder(BorderFactory.createTitledBorder("Métriques actuelles"));
+        infoPanel.add(new JLabel("Date d'installation:"));
+        infoPanel.add(new JLabel(agent.getDateInstallation().toString()));
         
-        metricsPanel.add(new JLabel("CPU:"));
-        metricsPanel.add(new JLabel(String.format("%.1f%%", agent.cpu)));
+        infoPanel.add(new JLabel("Dernière Alerte:"));
+        infoPanel.add(new JLabel(agent.getLastAlertTime().toString()));
         
-        metricsPanel.add(new JLabel("Mémoire:"));
-        metricsPanel.add(new JLabel(String.format("%.1f%%", agent.memory)));
+        infoPanel.add(new JLabel("Dernière Métrique:"));
+        infoPanel.add(new JLabel(agent.getLastMetricsTime().toString()));
         
-        metricsPanel.add(new JLabel("Disque:"));
-        metricsPanel.add(new JLabel(String.format("%.1f%%", agent.disk)));
+        infoPanel.add(new JLabel("Tags:"));
+        infoPanel.add(new JLabel(agent.getTags()));
         
         JPanel contentPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         contentPanel.add(infoPanel);
-        contentPanel.add(metricsPanel);
         
         panel.add(contentPanel, BorderLayout.CENTER);
         
